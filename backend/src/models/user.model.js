@@ -37,7 +37,10 @@ const User = sequelize.define("user", {
         allowNull : false,
         unique : true
     },
-
+    reafreshToken : {
+        type : DataTypes.STRING,
+        allowNull : false
+    }
 },
 {
     tableName : "user",

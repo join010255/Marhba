@@ -40,8 +40,4 @@ class UserControle{
             res.status(500).json({message : "server error"});
         }
     };
-
-    getProfile = async(req, res) => {
-        
-    }
 }

@@ -13,8 +13,7 @@ const authenticate = async(req, res, next) => {
        req.user = decode
        next()
     }catch(error){
-        
-        res.status(500).json({message : "your token is dad"});
+        res.status(401).json({message : "your token is died"});
     }
 }
 
