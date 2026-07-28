@@ -1,6 +1,5 @@
 import sequelize from "./config/database.js";
 import express from "express";
-import dotenv from "dotenv";
 
 const main = async() => {
     const app = express()

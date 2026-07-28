@@ -5,9 +5,9 @@ import User from "../models/user.model.js";
 
 dotenv.config({path : "./.env"})
 class GenerateTokenAndValid{
+    
     generatAcessAndReafreshToken = async(userId) => {
         try{
-            const userData = await User.findByPk(userId);
             if(!userData){
                 throw new Error("User Not Found");
             }
@@ -33,19 +33,6 @@ class GenerateTokenAndValid{
                     )
                 )
             ])
-            
-
-            re
-            if(!){
-                const tokenHash = crypto
-                .createHash("sha256")
-                .update(reafreshToken)
-                .digest("hex")
-                userData.reafreshToken = tokenHash
-                await userData.save()
-            };
-
-
 
             return {
                 acess_token : acessToken,
