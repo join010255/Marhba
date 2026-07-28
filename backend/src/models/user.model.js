@@ -1,7 +1,6 @@
 import { email } from "zod";
 import sequelize from "../config/database";
 import { DataTypes } from "sequelize";
-import { frCA } from "zod/locales";
 
 const User = sequelize.define("user", {
     id : {
@@ -22,7 +21,7 @@ const User = sequelize.define("user", {
     userName : {
         type : DataTypes.STRING,
         allowNull : false,
-        unique : true
+        unique : true,
     },
     email : {
         type : DataTypes.STRING,
@@ -38,12 +37,11 @@ const User = sequelize.define("user", {
         allowNull : false,
         unique : true
     },
-    createTime : {
-        type : DataTypes.DATE
-    },
-    updateTime : {
-        type : DataTypes.DATE
-    }
-});
 
+},
+{
+    tableName : "user",
+    timestamps : true
+}
+);
 export default User;
