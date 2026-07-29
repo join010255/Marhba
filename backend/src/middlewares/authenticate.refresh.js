@@ -15,7 +15,7 @@ const hashToken = async(text) => {
 
 export const authenticateReafreshToken = async(req, res, next) => {
     try{
-        const headerData = req.headers.authorization;
+        const headerData = req.headers.Authorization;
         
         if(!headerData || !headerData.startsWith("Bearer ")){
             return res.status(401).json({
@@ -36,9 +36,7 @@ export const authenticateReafreshToken = async(req, res, next) => {
         }
 
         if(!user.reafreshToken){
-            const tokenHash =  await hashToken(user.reafreshToken)
-            user.reafreshToken = tokenHash
-            await user.save()
+            return next()
         };
         
         const checkRefreshToken = await hashToken(refreashToken);

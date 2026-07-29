@@ -15,7 +15,7 @@ class Hash{
         const resultComparePassword = await bcrypt.compare(passwodPlan, passwordHash);
         return resultComparePassword;
         
-    }
+    };
 }
 
 export default new Hash();

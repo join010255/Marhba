@@ -47,6 +47,11 @@ class UserControle{
                 });
             } 
             const tokens = await GenerateTokenAndValid.generatAcessAndReafreshToken();
+            
+            checkUserNameOrEmail.reafreshToken = tokens.reafresh_token;
+
+            await checkUserNameOrEmail.save()
+
             res.status(201).json({message : tokens})
         }catch(error){
             console.log(error);
@@ -54,3 +59,5 @@ class UserControle{
         }
     };
 }
+
+export default new UserControle();
