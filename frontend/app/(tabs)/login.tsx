@@ -30,14 +30,15 @@ export default function Index() {
       
     
     <View style={{marginTop : 20, paddingHorizontal : 20}}>
-      <Input
-        label="Email Address"
-        icon="mail"
-        placeholder="name@example.com"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        onSubmitEditing={() => emailRef.current?.focus()}
+        <Input
+          label="Email Address"
+          icon="mail"
+          placeholder="name@example.com"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          returnKeyType="next"
+          onSubmitEditing={() => passwordRef.current?.focus()}
       />
       <Input
 
@@ -47,6 +48,7 @@ export default function Index() {
         secureTextEntry={true}
         placeholder="*********"
         value={password}
+        returnKeyType="done"
         onChangeText={setPassword}
         
       />

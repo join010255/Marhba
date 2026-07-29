@@ -11,7 +11,7 @@ class GenerateTokenAndValid{
             if(!userData){
                 throw new Error("User Not Found");
             }
-            const payload = {id : userData}
+            const payload = {id : userData.id}
 
             const [acessToken, reafreshToken] = await Promise.all([
                 Promise.resolve(

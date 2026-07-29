@@ -5,4 +5,4 @@ import {loginValidation, registerValidation} from "../middlewares/validation.mid
 
 const userRouters = Router();
 
-userRouters.post("/login", )
+userRouters.post("/login", loginValidation, UserControle.login)

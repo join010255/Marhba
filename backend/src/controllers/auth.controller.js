@@ -46,7 +46,7 @@ class UserControle{
                     message : "Invalid Email Or Password"
                 });
             } 
-            const tokens = await GenerateTokenAndValid.generatAcessAndReafreshToken();
+            const tokens = await GenerateTokenAndValid.generatAcessAndReafreshToken(checkUserNameOrEmail);
             
             checkUserNameOrEmail.reafreshToken = tokens.reafresh_token;
 
