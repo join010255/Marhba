@@ -13,6 +13,7 @@ class Hash{
     veryfyPasswordHash = async(passwordHash, passwodPlan) => {
         
         const resultComparePassword = await bcrypt.compare(passwodPlan, passwordHash);
+        console.log(resultComparePassword)
         return resultComparePassword;
         
     };

@@ -1,13 +1,13 @@
 import User from "../models/user.model.js";
 import { Op } from "sequelize";
 import Hash from "../utils/hashPassword.js";
-import GenerateTokenAndValid from "../utils/generateToken.js";
+import generatAcessAndReafreshToken  from "../utils/generateToken.js";
 
 class UserControle{
     register = async(req, res) => {
         try{
             const check = await User.findOne({
-                where :{ [Op.or] : [{email :  req.body.email}, {userName : req.body.userName}]}
+                where : {email :  req.body.email}
             });
             if(check){
                 return res.status(400).json({
@@ -31,7 +31,7 @@ class UserControle{
     login = async(req, res) => {
         try{
             const checkUserNameOrEmail = await User.findOne({
-                where : {login : req.body.login}
+                where : {email : req.body.email}
             });
 
             if(!checkUserNameOrEmail){
@@ -39,14 +39,14 @@ class UserControle{
                     message : "User Not Fond"
                 });
             } 
-
-            const checkPassword = await Hash.veryfyPasswordHash(req.body.password, checkUserNameOrEmail.password)
+            console.log(req.body.password, checkUserNameOrEmail.password)
+            const checkPassword = await Hash.veryfyPasswordHash(checkUserNameOrEmail.password, req.body.password)
             if(!checkPassword) {
                 return res.status(401).json({
                     message : "Invalid Email Or Password"
                 });
             } 
-            const tokens = await GenerateTokenAndValid.generatAcessAndReafreshToken(checkUserNameOrEmail);
+            const tokens = await generatAcessAndReafreshToken(checkUserNameOrEmail);
             
             checkUserNameOrEmail.reafreshToken = tokens.reafresh_token;
 

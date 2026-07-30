@@ -1,14 +1,17 @@
 import sequelize from "./config/database.js";
 import express from "express";
+import userRouters from "./routes/auth.routes.js";
 
 const main = async() => {
     const app = express()
     app.use(express.json())
-    // add the routes
+
+    app.use("/api", userRouters)
 
     try{
         await sequelize.authenticate()
         console.log("[+] database is conected");
+        // await sequelize.sync({ force: true });
         await sequelize.sync()
         console.log("[+] create tables");
 

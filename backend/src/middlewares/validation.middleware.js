@@ -3,10 +3,8 @@ import * as z from "zod";
 
 
 const loginSchema = z.object({
-    login: z
-        .string()
-        .trim()
-        .min(1, "Login is required"),
+    email: z
+        .email("Invalid email address"),
 
     password: z
         .string()
@@ -23,11 +21,6 @@ const registerSchema = z.object({
         .string()
         .trim()
         .min(2, "Last name must contain at least 2 characters"),
-
-    login: z
-        .string()
-        .trim()
-        .min(3, "Login must contain at least 3 characters"),
 
     email: z
         .email("Invalid email address"),

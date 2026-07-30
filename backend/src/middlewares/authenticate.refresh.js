@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 import dotenv from "dotenv";
 import crypto from "crypto";
-import generateToken from "../utils/generateToken.js";
+import generatAcessAndReafreshToken from "../utils/generateToken.js";
 
 dotenv.config({path : "./.env"})
 
@@ -15,18 +15,18 @@ const hashToken = async(text) => {
 
 export const authenticateReafreshToken = async(req, res, next) => {
     try{
-        const headerData = req.headers.Authorization;
-        
-        if(!headerData || !headerData.startsWith("Bearer ")){
+        const refreashToken = req.headers.authorization;
+        console.log(refreashToken)
+        if(!refreashToken ){//|| !headerData.startsWith("Bearer ")
             return res.status(401).json({
                 message : "Refresh token is required."
             })
         }
 
-        const refreashToken = headerData.split(" ")[1]
-        
-        const decode = await jwt.verify(refreashToken, "add sectet key")
-
+        //const refreashToken = headerData.split(" ")[1]
+        console.log("'lalalal")
+        const decode = await jwt.verify(refreashToken, process.env.REFRESH_TOKEN_SECRET)
+        console.log("'55")
         const user = await User.findByPk(decode.id);
 
         if(!user){
@@ -47,11 +47,11 @@ export const authenticateReafreshToken = async(req, res, next) => {
             });
         }
         
-        const ganerateNewTokens = await generateToken()
+        const ganerateNewTokens = await generatAcessAndReafreshToken(user)
         res.status(201).json(ganerateNewTokens)
         next()
 
     }catch(error){
-        console.log("error")
+        console.log(error)
     }
 }

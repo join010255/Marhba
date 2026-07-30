@@ -1,5 +1,5 @@
 import { email } from "zod";
-import sequelize from "../config/database";
+import sequelize from "../config/database.js";
 import { DataTypes } from "sequelize";
 
 const User = sequelize.define("user", {
@@ -18,11 +18,6 @@ const User = sequelize.define("user", {
         type : DataTypes.STRING,
         allowNull : false
     },
-    userName : {
-        type : DataTypes.STRING,
-        allowNull : false,
-        unique : true,
-    },
     email : {
         type : DataTypes.STRING,
         allowNull : false,
@@ -32,14 +27,8 @@ const User = sequelize.define("user", {
         type : DataTypes.STRING,
         allowNull : false
     },
-    role: {
-        type: DataTypes.ENUM("admin", "user"),
-        allowNull: false,
-        defaultValue: "user"
-    },
     reafreshToken : {
-        type : DataTypes.STRING,
-        allowNull : false
+        type : DataTypes.STRING
     }
 },
 {
