@@ -8,9 +8,10 @@ import { authenticateReafreshToken } from "../middlewares/authenticate.refresh.j
 
 const userRouters = Router();
 
-userRouters.post("/login", loginValidation, authenticate, UserControle.login)
+userRouters.post("/login", loginValidation, UserControle.login)
 userRouters.post("/register", registerValidation, UserControle.register)
 userRouters.get("/refresh", authenticateReafreshToken)
+userRouters.get("/me", authenticate, () => {console.log("hellog")})
 
 
 export default userRouters;
