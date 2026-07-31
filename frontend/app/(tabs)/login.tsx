@@ -1,19 +1,11 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Image } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import Input from "@/Components/Input";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { router } from "expo-router";
 import {TouchableWithoutFeedback, Keyboard,} from "react-native";
-// import { Controller, useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/hookForm/resolvers";
-
-
-
-
 
 export default function Index() {
   const [email, setEmail] = useState("");
@@ -48,15 +40,14 @@ export default function Index() {
               onChangeText={setEmail}
               keyboardType="email-address"
               onSubmitEditing={() => passwordRef.current?.focus()}
-              returnKeyType="next"
-              
-          />
+              returnKeyType="next" 
+            />
           <Input
             ref={passwordRef}
             label="Password"
             icon="lock"
             secureTextEntry={true}
-            placeholder="*********"
+            placeholder="Password"
             value={password}
             returnKeyType="done"
             onChangeText={setPassword}

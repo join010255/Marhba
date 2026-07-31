@@ -59,6 +59,21 @@ class UserControle{
             res.status(500).json({message : "server error"});
         }
     };
+
+    getMe = async(req, res) => {
+        try{
+            const userData = await User.findOne({
+                where : {id :  req.user.id}
+            })
+
+            if(!userData){
+                res.status(404).json({message : "User Not Fond"})
+            }
+            res.status(201).json({message : userData})
+        }catch(error){
+            console.log(error);
+        }
+    }
 }
 
 export default new UserControle();

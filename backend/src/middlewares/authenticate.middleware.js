@@ -7,13 +7,7 @@ dotenv.config({path : "./.env"})
 const authenticate = async(req, res, next) => {
     
     try{
-        const userData = await User.findOne({
-            where : {email : req.body.email}
-        });
-
-        if(!userData.reafreshToken){
-            return next();
-        }
+        
         const header = req.headers.authorization;
         if(!header ){//|| !header.startsWith("Bearer ")
             return res.status(401).json({
@@ -22,7 +16,6 @@ const authenticate = async(req, res, next) => {
         }
 
         // const token = header.split(" ")[1]
-        console.log(header)
         const decode =  await jwt.verify(header, process.env.ACCESS_TOKEN_SECRET);
         req.user = decode
         next()
