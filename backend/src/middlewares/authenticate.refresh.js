@@ -6,7 +6,7 @@ import generatAcessAndReafreshToken from "../utils/generateToken.js";
 
 dotenv.config({path : "./.env"})
 
-const hashToken = async(text) => {
+export const hashToken = async(text) => {
     return crypto
     .createHash("sha256")
     .update(text)
@@ -40,7 +40,7 @@ export const authenticateReafreshToken = async(req, res, next) => {
         };
         
         const checkRefreshToken = await hashToken(refreashToken);
-
+        console.log(checkRefreshToken, user.reafreshToken)
         if(checkRefreshToken !== user.reafreshToken){
             return res.status(401).json({
                 message : "Token is not true"

@@ -11,7 +11,7 @@ const userRouters = Router();
 userRouters.post("/login", loginValidation, UserControle.login)
 userRouters.post("/register", registerValidation, UserControle.register)
 userRouters.get("/refresh", authenticateReafreshToken)
-userRouters.get("/me", authenticate, () => {console.log("hellog")})
+userRouters.get("/me", authenticate)
 
 
 export default userRouters;

@@ -22,10 +22,10 @@ const authenticate = async(req, res, next) => {
         }
 
         // const token = header.split(" ")[1]
-        
-       const decode =  await jwt.verify(header, process.env.ACCESS_TOKEN_SECRET);
-       req.user = decode
-       next()
+        console.log(header)
+        const decode =  await jwt.verify(header, process.env.ACCESS_TOKEN_SECRET);
+        req.user = decode
+        next()
        
     }catch(error){
         console.log(error)

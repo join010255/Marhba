@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import { Op } from "sequelize";
 import Hash from "../utils/hashPassword.js";
 import generatAcessAndReafreshToken  from "../utils/generateToken.js";
-
+import { hashToken } from "../middlewares/authenticate.refresh.js";
 class UserControle{
     register = async(req, res) => {
         try{
@@ -48,7 +48,8 @@ class UserControle{
             } 
             const tokens = await generatAcessAndReafreshToken(checkUserNameOrEmail);
             
-            checkUserNameOrEmail.reafreshToken = tokens.reafresh_token;
+            checkUserNameOrEmail.reafreshToken = await hashToken(tokens.reafresh_token);
+            console.log(checkUserNameOrEmail)
 
             await checkUserNameOrEmail.save()
 
