@@ -23,6 +23,14 @@ class AsyncStorageClass{
         }catch(error){
             console.log(error)
         }
+    };
+
+    async remove() {
+        try{
+            await AsyncStorage.clear();
+        }catch(error){
+            console.log(error);
+        }
     }
 }
 

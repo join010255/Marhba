@@ -15,15 +15,15 @@ export const hashToken = async(text) => {
 
 export const authenticateReafreshToken = async(req, res, next) => {
     try{
-        const refreashToken = req.headers.authorization;
-        console.log(refreashToken)
-        if(!refreashToken ){//|| !headerData.startsWith("Bearer ")
+        const headerData = req.headers.authorization;
+        console.log(headerData)
+        if(!headerData || !headerData.startsWith("Bearer ")){//
             return res.status(401).json({
                 message : "Refresh token is required."
             })
         }
 
-        //const refreashToken = headerData.split(" ")[1]
+        const refreashToken = headerData.split(" ")[1]
         console.log("'lalalal")
         const decode = await jwt.verify(refreashToken, process.env.REFRESH_TOKEN_SECRET)
         console.log("'55")

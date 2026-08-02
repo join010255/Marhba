@@ -9,8 +9,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import Input from "@/Components/Input";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Input from "../../Components/Input";
 import { router } from "expo-router";
 import Api from "../../service/User/api"
 
@@ -25,6 +25,7 @@ const Register = () => {
   const passwordRef = useRef(null);
 
   const [errors, setErrors] = useState({});
+  const [apiError, setApiError] = useState({});
 
   const validate = () => {
     const errs = {};
@@ -54,26 +55,34 @@ const Register = () => {
     return Object.keys(errs).length === 0;
   };
 
+  const apiConn = async() => {
+    const resError = {}
+    const allData = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+
+    try {
+      const res = await Api.register(allData);
+      console.log("SUCCESS:", res);
+    } catch (err) {
+      resError.message = err.message
+
+      console.log("CODE:", err.code);
+      console.log("RESPONSE:", err.response);
+    }
+
+    if(Object.keys(resError).length === 0){
+      return router.push("/(tabs)/login")
+    }
+    setApiError(resError)
+  }
+
   const handleRegister = async() => {
     if (!validate()) return;
-
-    const allData = {
-  firstName,
-  lastName,
-  email,
-  password,
-};
-    console.log(allData)
-    try {
-  const res = await Api.register(allData);
-  console.log("SUCCESS:", res);
-} catch (err) {
-  console.log("MESSAGE:", err.message);
-  console.log("CODE:", err.code);
-  console.log("RESPONSE:", err.response);
-}
-    router.push("/(tabs)/login")
-    // Create account here
+    await apiConn()
   };
 
   return (
@@ -137,12 +146,16 @@ const Register = () => {
           onChangeText={(text) => {
             setEmail(text);
             setErrors({ ...errors, email: "" });
+            setApiError({ message: "" }); // optional
           }}
           returnKeyType="next"
           onSubmitEditing={() => passwordRef.current?.focus()}
         />
+
         {errors.email ? (
           <Text style={styles.error}>{errors.email}</Text>
+        ) : apiError?.message ? (
+          <Text style={styles.error}>Email Is Exist</Text>
         ) : null}
 
         <Input

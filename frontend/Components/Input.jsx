@@ -1,17 +1,12 @@
 import React from "react";
-import { View, Text, TextInput, TextInputProps } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { Feather } from "@expo/vector-icons";
-
-interface InputProps extends TextInputProps {
-  label: string;
-  icon: keyof typeof Feather.glyphMap;
-}
 
 export default function Input({
   label,
   icon,
   ...props
-}: InputProps) {
+}) {
   return (
     <View style={{ marginBottom: 20 }}>
       <Text

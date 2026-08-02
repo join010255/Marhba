@@ -30,28 +30,28 @@ class UserControle{
 
     login = async(req, res) => {
         try{
-            const checkUserNameOrEmail = await User.findOne({
+            const userData = await User.findOne({
                 where : {email : req.body.email}
             });
 
-            if(!checkUserNameOrEmail){
+            if(!userData){
                 return res.status(404).json({
                     message : "User Not Fond"
                 });
             } 
-            console.log(req.body.password, checkUserNameOrEmail.password)
-            const checkPassword = await Hash.veryfyPasswordHash(checkUserNameOrEmail.password, req.body.password)
+            console.log(req.body.password, userData.password)
+            const checkPassword = await Hash.veryfyPasswordHash(userData.password, req.body.password)
             if(!checkPassword) {
                 return res.status(401).json({
                     message : "Invalid Email Or Password"
                 });
             } 
-            const tokens = await generatAcessAndReafreshToken(checkUserNameOrEmail);
+            const tokens = await generatAcessAndReafreshToken(userData);
             
-            checkUserNameOrEmail.reafreshToken = await hashToken(tokens.reafresh_token);
-            console.log(checkUserNameOrEmail)
+            userData.reafreshToken = await hashToken(tokens.reafresh_token);
+            console.log(userData)
 
-            await checkUserNameOrEmail.save()
+            await userData.save()
 
             res.status(201).json({message : tokens})
         }catch(error){
@@ -63,7 +63,8 @@ class UserControle{
     getMe = async(req, res) => {
         try{
             const userData = await User.findOne({
-                where : {id :  req.user.id}
+                where : {id :  req.user.id},
+                attributes : []
             })
 
             if(!userData){

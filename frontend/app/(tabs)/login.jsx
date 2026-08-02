@@ -1,16 +1,85 @@
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
-
+import { Text, View, StyleSheet, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useRef } from "react";
-import Input from "@/Components/Input";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { useState, useRef, useEffect } from "react";
+import Input from "../../Components/Input";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-import {TouchableWithoutFeedback, Keyboard,} from "react-native";
+
+import Api from "../../service/User/api"
+// import Login
+
+
+
 
 export default function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const passwordRef = useRef(null);
+
+  const [errs, setErorr] = useState({});
+
+  const [apiError, setApiError] = useState({})
+
+  useEffect(() => {
+    async function checkUserIsLogin(){
+      try{
+        const me = await Api.getMe();
+        if(!me){
+          router.replace("login")
+        }else{
+          router.replace("/profile")
+        }
+      }catch(error){
+        console.log(error)
+      }
+    };
+    checkUserIsLogin()
+  }, [])
+
+  
+  const  validates = () => {
+  
+      if (!email.trim()) {
+        errs.email = "Email is required.";
+      } else if (!/\S+@\S+\.\S+/.test(email)) {
+        errs.email = "Invalid email address.";
+      }
+
+      if (!password.trim()) {
+        errs.password = "Password is required.";
+      } else if (password.length < 8) {
+        errs.password = "Password must be at least 8 characters.";
+      }
+      setErorr(errs);
+
+      return Object.keys(errs).length === 0;
+  }
+
+  const apiConn = async() => {
+    try {
+      await Api.login({
+        email,
+        password,
+      });
+      return true
+    } catch (err) {
+      setApiError({
+        message: "Input Error",
+      });
+      return false
+    }
+  }
+  const handelInput = async() => {
+    console.log('labobo')
+    if(!validates()){
+      return
+    }
+    console.log('test')
+    const secess = await apiConn();
+    if(secess){
+      router.replace("/(tabs)/profile")
+    }
+  }
   
   
 
@@ -37,11 +106,17 @@ export default function Index() {
               icon="mail"
               placeholder="Username, email"
               value={email}
-              onChangeText={setEmail}
+              onChangeText={(text) => {setEmail(text)
+                setErorr({ ...errs, email: "" });}
+              }
               keyboardType="email-address"
               onSubmitEditing={() => passwordRef.current?.focus()}
               returnKeyType="next" 
             />
+            {errs.email ? (
+                <Text style={styles.error}>{errs.email}</Text>
+            ) : null}
+
           <Input
             ref={passwordRef}
             label="Password"
@@ -50,9 +125,16 @@ export default function Index() {
             placeholder="Password"
             value={password}
             returnKeyType="done"
-            onChangeText={setPassword}
+            onChangeText={(text) => {
+              setPassword(text);
+              setErorr({...errs, password : ""})
+            }}
           />
-          <TouchableOpacity style={styles.loginButton}>
+           {errs.password ? (
+                <Text style={styles.error}>{errs.password}</Text>
+            ) : null}
+
+          <TouchableOpacity style={styles.loginButton} onPress={() => handelInput()}>
           
             <Text style={{fontSize : 25}}>
               Login 
@@ -63,7 +145,7 @@ export default function Index() {
         </View>
         <View style={{paddingTop : 250, flexDirection: "row", alignItems: "center", justifyContent : "center"}}>
           <Text>
-              Don't have an account? {" "}
+              Don&apos;t have an account? {" "}
           </Text>
           <TouchableOpacity onPress={() => {router.push("/register");}}>
             <Text style={{color: "#7ed883ff"}}>
@@ -100,5 +182,13 @@ const styles = StyleSheet.create({
     gap: 10,
     justifyContent: "center",
     alignItems : "center"
-  }
+  },
+
+  error: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 1,
+    marginBottom: 8,
+    marginLeft: 5,
+  },
 })
