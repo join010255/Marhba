@@ -5,18 +5,20 @@ import Input from "../../Components/Input";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import LoadingScreen from "./loadingScreen"
-import Api from "../../service/User/api"
+import Api from "../../service/User/api";
+import useUserData from "../../store/userDataStore"
 // import Login
 
 
 
 
 export default function Index() {
+  const setUserData = useUserData((state) => state.setUserData);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
+  const [password, setPassword] = useState("");
   const passwordRef = useRef(null);
   const [errs, setErorr] = useState({});
-  const [apiError, setApiError] = useState({})
+  const [apiError, setApiError] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -27,12 +29,13 @@ export default function Index() {
         if(!me){
           setLoading(true)
           router.replace("/login")
-          console.log("go to login")
+         
         }else{
+          setUserData(me.message)
           setLoading(true)
-          console.log("go to profile")
+          console.log(setUserData)
           router.replace("/profile")
-          console.log("go to profile")
+          
         }
       }catch(error){
         // router.replace("/login")
