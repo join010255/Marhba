@@ -8,13 +8,13 @@ class Api {
     try {
       const tokens = await AsyncStorageClass.getTokens();
 
-      if (!tokens?.refresh_token) {
+      if (!tokens?.reafresh_token) {
         return null;
       }
 
       const res = await api.get("/refresh", {
         headers: {
-          Authorization: `Bearer ${tokens.refresh_token}`,
+          authorization: `Bearer ${tokens.reafresh_token}`,
         },
       });
       await AsyncStorageClass.remove()
@@ -56,30 +56,32 @@ class Api {
   async getMe() {
     try {
       let tokens = await AsyncStorageClass.getTokens();
-
-      if (!tokens?.access_token) {
+      console.log(tokens)
+      if (!tokens?.acess_token) {
         throw new Error("No access token");
       }
+      console.log(tokens.acess_token)
 
       const res = await api.get("/me", {
         headers: {
-          Authorization: `Bearer ${tokens.access_token}`,
-        },
+          authorization: `Bearer ${tokens.acess_token}`,
+        }
       });
+      console.log(res)
 
       return res.data;
     } catch (error) {
       console.log("Access token expired, refreshing...");
 
       const newTokens = await this.refresh();
-
+      console.log(newTokens)
       if (!newTokens) {
         throw error;
       }
 
       const res = await api.get("/me", {
         headers: {
-          Authorization: `Bearer ${newTokens.access_token}`,
+          authorization: `Bearer ${newTokens.acess_token}`,
         },
       });
 

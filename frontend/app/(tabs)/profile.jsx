@@ -13,6 +13,7 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { router } from "expo-router";
+import AsyncStorageClass from "../../Storage/AsyncStorage"
 
 
 export default function HomeScreen() {
@@ -22,7 +23,7 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
       >
-        {/* Header */}
+     
         <View style={styles.header}>
           <View style={styles.logoContainer}>
             <MaterialCommunityIcons
@@ -34,23 +35,10 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.headerIcons}>
-            <Ionicons
-              name="settings-outline"
-              size={24}
-              color="#fff"
-            />
-
-            <View style={styles.avatar}>
-              <Feather
-                name="user"
-                size={18}
-                color="#fff"
-              />
-            </View>
           </View>
         </View>
 
-        {/* Welcome Card */}
+       
         <View style={styles.card}>
           <Text style={styles.title}>
             Marhba, Alex 👋
@@ -62,7 +50,7 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        {/* Account Details */}
+      
         <View style={styles.card}>
           <View style={styles.sectionHeader}>
             <MaterialCommunityIcons
@@ -126,7 +114,10 @@ export default function HomeScreen() {
         </View>
         <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => router.replace("/(tabs)/login")}
+            onPress={async() => {
+              await AsyncStorageClass.remove()
+              router.replace("/(tabs)/login")
+            }}
         >
             <Text style={styles.buttonText}>Create Account</Text>
             <Ionicons name="arrow-forward" size={24} color="black" />

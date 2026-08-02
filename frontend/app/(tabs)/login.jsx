@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Input from "../../Components/Input";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
-
+import LoadingScreen from "./loadingScreen"
 import Api from "../../service/User/api"
 // import Login
 
@@ -15,30 +15,39 @@ export default function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
   const passwordRef = useRef(null);
-
   const [errs, setErorr] = useState({});
-
   const [apiError, setApiError] = useState({})
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function checkUserIsLogin(){
       try{
         const me = await Api.getMe();
+        console.log(me)
         if(!me){
-          router.replace("login")
+          setLoading(true)
+          router.replace("/login")
+          console.log("go to login")
         }else{
+          setLoading(true)
+          console.log("go to profile")
           router.replace("/profile")
+          console.log("go to profile")
         }
       }catch(error){
-        console.log(error)
+        // router.replace("/login")
+        setLoading(true)
+        console.log(error, "lanono")
       }
     };
     checkUserIsLogin()
   }, [])
-
+  if(!loading){
+    return <LoadingScreen/>
+  }
   
   const  validates = () => {
-  
+      const errs = {}
       if (!email.trim()) {
         errs.email = "Email is required.";
       } else if (!/\S+@\S+\.\S+/.test(email)) {
@@ -70,7 +79,7 @@ export default function Index() {
     }
   }
   const handelInput = async() => {
-    console.log('labobo')
+    // console.log('labobo')
     if(!validates()){
       return
     }

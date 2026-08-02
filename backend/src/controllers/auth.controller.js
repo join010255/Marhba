@@ -53,7 +53,7 @@ class UserControle{
 
             await userData.save()
 
-            res.status(201).json({message : tokens})
+            res.status(201).json(tokens)
         }catch(error){
             console.log(error);
             res.status(500).json({message : "server error"});
@@ -64,7 +64,7 @@ class UserControle{
         try{
             const userData = await User.findOne({
                 where : {id :  req.user.id},
-                attributes : []
+                attributes : ["firstName", "email"]
             })
 
             if(!userData){
