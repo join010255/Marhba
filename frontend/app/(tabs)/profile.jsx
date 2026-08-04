@@ -13,10 +13,13 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { router } from "expo-router";
-import AsyncStorageClass from "../../Storage/AsyncStorage"
+import AsyncStorageClass from "../../Storage/AsyncStorage";
+import useUserData from "@/store/userDataStore";
 
 
 export default function HomeScreen() {
+  const userData = useUserData((state) => state.userData);
+  console.log("profile", userData)
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -41,7 +44,7 @@ export default function HomeScreen() {
        
         <View style={styles.card}>
           <Text style={styles.title}>
-            Marhba, Alex 👋
+            Marhba, {userData.firstName} 👋
           </Text>
 
           <Text style={styles.description}>
@@ -69,7 +72,7 @@ export default function HomeScreen() {
           </Text>
 
           <Text style={styles.value}>
-            alex.jordan@marhba.tech
+            {userData.email}
           </Text>
 
           <Text style={[styles.label, { marginTop: 20 }]}>
@@ -77,7 +80,7 @@ export default function HomeScreen() {
           </Text>
 
           <Text style={styles.value}>
-            January 2024
+            {userData.createdAt.split("T")[0]}
           </Text>
         </View>
 

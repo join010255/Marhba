@@ -16,7 +16,7 @@ export const hashToken = async(text) => {
 export const authenticateReafreshToken = async(req, res, next) => {
     try{
         const headerData = req.headers.authorization;
-        console.log(headerData)
+        // console.log(headerData)
         if(!headerData || !headerData.startsWith("Bearer ")){//
             return res.status(401).json({
                 message : "Refresh token is required."
@@ -24,9 +24,9 @@ export const authenticateReafreshToken = async(req, res, next) => {
         }
 
         const refreashToken = headerData.split(" ")[1]
-        console.log("'lalalal")
+        // console.log("'lalalal")
         const decode = await jwt.verify(refreashToken, process.env.REFRESH_TOKEN_SECRET)
-        console.log("'55")
+        // console.log("'55")
         const user = await User.findByPk(decode.id);
 
         if(!user){

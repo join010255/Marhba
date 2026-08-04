@@ -33,10 +33,10 @@ const generatAcessAndReafreshToken = async(userId) => {
                 )
             )
         ])
-        console.log({
-            acess_token : acessToken,
-            reafresh_token : reafreshToken
-        })
+        // console.log({
+        //     acess_token : acessToken,
+        //     reafresh_token : reafreshToken
+        // })
         return {
             acess_token : acessToken,
             reafresh_token : reafreshToken

@@ -64,7 +64,7 @@ class UserControle{
         try{
             const userData = await User.findOne({
                 where : {id :  req.user.id},
-                attributes : ["firstName", "email"]
+                attributes : ["firstName", "email", "createdAt"]
             })
 
             if(!userData){

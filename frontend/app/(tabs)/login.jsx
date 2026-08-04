@@ -25,7 +25,7 @@ export default function Index() {
     async function checkUserIsLogin(){
       try{
         const me = await Api.getMe();
-        console.log(me)
+        // console.log(me)
         if(!me){
           setLoading(true)
           router.replace("/login")
@@ -40,11 +40,12 @@ export default function Index() {
       }catch(error){
         // router.replace("/login")
         setLoading(true)
-        console.log(error, "lanono")
+        // console.log(error, "lanono")
       }
     };
     checkUserIsLogin()
   }, [])
+
   if(!loading){
     return <LoadingScreen/>
   }
@@ -75,9 +76,7 @@ export default function Index() {
       });
       return true
     } catch (err) {
-      setApiError({
-        message: "Input Error",
-      });
+      
       return false
     }
   }
@@ -108,9 +107,6 @@ export default function Index() {
           <Text style={{fontSize : 35, fontFamily: "Inter_700Bold", color : "#ffff"}}>Welcom Back</Text>
           <Text style={{color : "#B0B0B0", marginTop : 10}} >Sign in to continue</Text>
         </View>
-
-      
-        
     
         <View style={{marginTop : 20, paddingHorizontal : 20}}>
             <Input
@@ -148,16 +144,16 @@ export default function Index() {
 
           <TouchableOpacity style={styles.loginButton} onPress={() => handelInput()}>
           
-            <Text style={{fontSize : 25}}>
+            <Text style={{fontSize : 25, color : "white"}}>
               Login 
             </Text>
-            <Ionicons name="arrow-forward" size={24} color="black" />
+            <Ionicons style={{color : "white"}} name="arrow-forward" size={24} color="black" />
           </TouchableOpacity>
           
         </View>
         <View style={{paddingTop : 250, flexDirection: "row", alignItems: "center", justifyContent : "center"}}>
-          <Text>
-              Don&apos;t have an account? {" "}
+          <Text style={{color : "white"}}>
+              Dont have an account? {" "}
           </Text>
           <TouchableOpacity onPress={() => {router.push("/register");}}>
             <Text style={{color: "#7ed883ff"}}>

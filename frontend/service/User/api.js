@@ -36,7 +36,7 @@ class Api {
 
       return res.data;
     } catch (error) {
-      console.log("Login error:", error?.response?.data || error.message);
+      // console.log("Login error:", error?.response?.data || error.message);
       throw error;
     }
   }
@@ -47,7 +47,7 @@ class Api {
       const res = await api.post("/register", data);
       return res.data;
     } catch (error) {
-      console.log("Register error:", error?.response?.data || error.message);
+      // console.log("Register error:", error?.response?.data || error.message);
       throw error;
     }
   }
