@@ -73,8 +73,9 @@ class UserControle{
             res.status(201).json({message : userData})
         }catch(error){
             console.log(error);
+            res.status(500).json({message : "server error"});
         }
-    }
+    };
 }
 
 export default new UserControle();

@@ -155,7 +155,7 @@ const Register = () => {
         {errors.email ? (
           <Text style={styles.error}>{errors.email}</Text>
         ) : apiError?.message ? (
-          <Text style={styles.error}>Email Is Exist</Text>
+          <Text style={styles.error}>Email Is Ready Exist</Text>
         ) : null}
 
         <Input

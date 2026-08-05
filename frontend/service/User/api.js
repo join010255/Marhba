@@ -88,6 +88,14 @@ class Api {
       return res.data;
     }
   };
+  async getAll() {
+    try{
+      const data = await api.get("/test");
+      return data.data
+    }catch(error){
+      console.log(error)
+    }
+  }
 
 }
 

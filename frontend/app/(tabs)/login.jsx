@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import LoadingScreen from "./loadingScreen"
 import Api from "../../service/User/api";
 import useUserData from "../../store/userDataStore"
+
 // import Login
 
 
@@ -18,7 +19,7 @@ export default function Index() {
   const [password, setPassword] = useState("");
   const passwordRef = useRef(null);
   const [errs, setErorr] = useState({});
-  const [apiError, setApiError] = useState({});
+  const [apiError, setApiError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function Index() {
       });
       return true
     } catch (err) {
-      
+      setApiError(true)
       return false
     }
   }
@@ -92,8 +93,6 @@ export default function Index() {
     }
   }
   
-  
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={{backgroundColor : "#151b15", flex : 1}} edges={["top", "bottom", "left", "right"]} >
@@ -138,9 +137,12 @@ export default function Index() {
               setErorr({...errs, password : ""})
             }}
           />
-           {errs.password ? (
+           {errs?.password ? (
                 <Text style={styles.error}>{errs.password}</Text>
-            ) : null}
+            ) : apiError ? (
+              // (Alert.alert("Error zjerigbg"))
+              <Text style={styles.error}>email or password is false</Text>
+            ): null}
 
           <TouchableOpacity style={styles.loginButton} onPress={() => handelInput()}>
           
@@ -161,8 +163,6 @@ export default function Index() {
             </Text>
           </TouchableOpacity>
         </View>
-
-        
       </SafeAreaView>
     </TouchableWithoutFeedback>
     
